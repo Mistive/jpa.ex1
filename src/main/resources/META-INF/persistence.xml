@@ -8,6 +8,10 @@
         <class>jpa.ex1.Locker</class>
         <class>jpa.ex1.Product</class>
         <class>jpa.ex1.MemberProduct</class>
+        <class>jpa.ex1.Album</class>
+        <class>jpa.ex1.Book</class>
+        <class>jpa.ex1.Movie</class>
+        <class>jpa.ex1.Item</class>
         <properties>
             <!-- 필수 속성 -->
             <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>

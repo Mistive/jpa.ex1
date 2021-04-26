@@ -19,15 +19,20 @@ public class Ex1Application {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try {
-            Member member = saveMember(em);
-            System.out.println("===========================");
-            Team team = new Team();
-            team.setName("teamA");
-            //연관관계가 바뀌는 것이기 때문에 외래키가 바뀌어야 하는데 현재 외래키는 MEMBER table에서 관리하고 있으므로,
-            team.getMembers().add(member);
+            //movie 등록
+            Movie movie = new Movie();
+            movie.setDirector("aaaa");
+            movie.setActor("bbbb");
+            movie.setName("바람과함께사라지다.");
+            movie.setPrice(10000);
+            em.persist(movie);
 
-            em.persist(team);
+            //영속성 컨텍스트 클리어
+            em.flush();
+            em.clear();
 
+            Movie findMovie = em.find(Movie.class, movie.getId());
+            System.out.println("findMovie = " + findMovie);
 
 
             tx.commit();
