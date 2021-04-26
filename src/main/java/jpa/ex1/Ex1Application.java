@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.time.LocalDateTime;
 
 @SpringBootApplication
 public class Ex1Application {
@@ -19,21 +20,12 @@ public class Ex1Application {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try {
-            //movie 등록
-            Movie movie = new Movie();
-            movie.setDirector("aaaa");
-            movie.setActor("bbbb");
-            movie.setName("바람과함께사라지다.");
-            movie.setPrice(10000);
-            em.persist(movie);
+            Member member = new Member();
+            member.setCreatedBy("kim");
+            member.setUserMember("user");
+            member.setCreatedDate(LocalDateTime.now());
 
-            //영속성 컨텍스트 클리어
-            em.flush();
-            em.clear();
-
-            Movie findMovie = em.find(Movie.class, movie.getId());
-            System.out.println("findMovie = " + findMovie);
-
+            em.persist(member);
 
             tx.commit();
         } catch (Exception e) {
