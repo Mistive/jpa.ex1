@@ -6,6 +6,8 @@
         <class>jpa.ex1.Member</class>
         <class>jpa.ex1.Team</class>
         <class>jpa.ex1.Locker</class>
+        <class>jpa.ex1.Product</class>
+        <class>jpa.ex1.MemberProduct</class>
         <properties>
             <!-- 필수 속성 -->
             <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
