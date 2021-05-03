@@ -6,7 +6,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import java.time.LocalDateTime;
 
 @SpringBootApplication
 public class Ex1Application {
@@ -15,21 +14,28 @@ public class Ex1Application {
 //        System.out.println("Hello World");
         //write your code
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
-        EntityManager em =   emf.createEntityManager();
+        EntityManager em = emf.createEntityManager();
 
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try {
-            Member member = new Member();
-            member.setCreatedBy("kim");
-            member.setUserMember("user");
-            member.setCreatedDate(LocalDateTime.now());
+            Member member1 = new Member();
+            member1.setUserMember("member1");
+            em.persist(member1);
 
-            em.persist(member);
+            em.flush();
+            em.clear();
+
+            Member refMember = em.getReference(Member.class, member1.getId());
+            System.out.println("refMember = " + refMember.getClass());  //Proxy
+            System.out.println("isLoaded(초기화 x) = " + (emf.getPersistenceUnitUtil().isLoaded(refMember)));  //초기화 안된 상태
+            System.out.println("refMember = " + refMember.getName());
+            System.out.println("isLoaded(초기화 o) = " + (emf.getPersistenceUnitUtil().isLoaded(refMember)));  //초기화 안된 상태
 
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
+            e.printStackTrace();
         } finally {
             em.close();
             emf.close();
