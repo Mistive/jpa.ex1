@@ -5,7 +5,6 @@
     <persistence-unit name="hello">
         <class>jpa.ex1.Member</class>
         <class>jpa.ex1.Team</class>
-        <class>jpa.ex1.Locker</class>
         <class>jpa.ex1.Product</class>
         <class>jpa.ex1.MemberProduct</class>
         <class>jpa.ex1.Album</class>
