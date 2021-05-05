@@ -11,6 +11,8 @@
         <class>jpa.ex1.Book</class>
         <class>jpa.ex1.Movie</class>
         <class>jpa.ex1.Item</class>
+        <class>jpa.ex1.Parent</class>
+        <class>jpa.ex1.Child</class>
         <properties>
             <!-- 필수 속성 -->
             <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
