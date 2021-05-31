@@ -5,6 +5,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.util.List;
+import java.util.Set;
 
 public class jpaMain {
 
@@ -17,20 +19,48 @@ public class jpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try {
-            Address address = new Address("city", "street", " 100101");
+            Member member = new Member();
+            member.setName("member1");
+            member.setHomeAddress(new Address("homeCity", "street", "1234"));
 
-            Member member1 = new Member();
-            member1.setName("member1");
-            member1.setHomeAddress(address);
-            em.persist(member1);
-            Address copyAddress = new Address(address.getCity(), address.getStreet(), address.getZipcode());
+            //HashSet에 추가
+            member.getFavorateFoods().add("치킨");
+            member.getFavorateFoods().add("족발");
+            member.getFavorateFoods().add("피자");
+            member.getAddressHistory().add(new AddressEntity("old1", "street", "1234"));
+            member.getAddressHistory().add(new AddressEntity("old2", "street", "1234"));
 
-            Member member2 = new Member();
-            member2.setName("member2");
-            member2.setHomeAddress(copyAddress);
-            em.persist(member2);
+            em.persist(member);
 
-            member1.getHomeAddress().setCity("newCity");
+            em.flush();
+            em.clear();
+//조회
+            System.out.println("============START============");
+            Member findMember = em.find(Member.class, member.getId());
+//            //지연 로딩
+//            List<AddressEntity> addressHistory = findMember.getAddressHistory();
+//            for (AddressEntity addressEntity : addressHistory) {
+//                System.out.println("addressEntity.getAddress().getCity() = " + addressEntity.getAddress().getCity());
+//            }
+//
+//            Set<String> favorateFoods = findMember.getFavorateFoods();
+//            for (String favorateFood : favorateFoods) {
+//                System.out.println("favorateFood = " + favorateFood);
+//            }
+
+// 수정
+            //homeCity -> newCity
+//            findMember.getHomeAddress().setCity("newCity");   //이렇게 수정할 경우 SideEffect 발생
+//            Address a = findMember.getHomeAddress();
+//            findMember.setHomeAddress(new Address("newCity", a.getStreet(), a.getZipcode()));
+//
+//            //치킨 -> 한식
+//            findMember.getFavorateFoods().remove("치킨");
+//            findMember.getFavorateFoods().add("한식");
+
+            //History 정보 수정 : equals를 이용해서 조회를 수행하게 되는데 여기서 equals가 제대로 override가 안되있다면? List에서 원하는 값을 못찾게 되는 것이다.
+            findMember.getAddressHistory().remove(new AddressEntity("old1", "street", "1234"));
+            findMember.getAddressHistory().add(new AddressEntity("newCity1", "street", "1234"));
 
             tx.commit();
         } catch (Exception e) {
